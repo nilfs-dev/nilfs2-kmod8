@@ -1,0 +1,5 @@
+nilfs2-kmod8-0.1  xxx xxx xx, 2022 JST
+
+	* add kern_feature.h header file
+	* add .gitignore file
+	* Import source files from stable kernel-4.18.y.

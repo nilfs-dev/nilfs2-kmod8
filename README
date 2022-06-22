@@ -1,0 +1,29 @@
+* Required packages
+
+- GCC
+- GNU make
+- GNU binutils
+- Kernel headers (kernel-headers)
+
+You also need to install nilfs-utils package.  The garbage collector
+of NILFS, snapshot management tools, man-pages, and other filesystem
+administration tools, are included in the package.
+
+* Supported Linux distributions
+
+- CentOS 8 Stream
+
+* How to get development sources
+
+ $ cd your-work-directory
+ $ git clone https://github.com/nilfs-dev/nilfs2-kmod8.git
+
+* How to compile
+
+ $ cd nilfs2-kmod8
+ $ make
+
+* How to install
+
+ $ sudo make install
+
