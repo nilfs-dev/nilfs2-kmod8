@@ -1,5 +1,46 @@
-nilfs2-kmod8-0.1  xxx xxx xx, 2022 JST
+nilfs2-kmod8-0.1  Wed Oct 12, 2022 JST
 
+	* backport RHEL 8 changes:
+	  - block: use an on-stack bio in blkdev_issue_flush
+	  - block: remove the error_sector argument to blkdev_issue_flush
+	  - fs/nilfs2/file.c: use new return type vm_fault_t
+	  - nilfs2: Convert to XArray
+	  - nilfs2: Use xa_erase_irq
+	  - XArray: Change xa_insert to return -EBUSY
+	  - treewide: Use fallthrough pseudo-keyword
+	  - Allow to backport vfs_ioc_setflags_prepare()
+	  - Allow to backport the new readahead aop
+	* backport bug fixes:
+	  - nilfs2: use 64-bit superblock timstamps
+	  - nilfs2: fix null pointer dereference at
+	    nilfs_segctor_do_construct()
+	  - nilfs2: only call unlock_new_inode() if I_NEW
+	  - nilfs2: fix memory leak in nilfs_sysfs_delete_device_group
+	  - nilfs2: fix memory leak in nilfs_sysfs_create_device_group
+	  - nilfs2: fix NULL pointer in nilfs_##name##_attr_release
+	  - nilfs2: fix memory leak in nilfs_sysfs_create_##name##_group
+	  - nilfs2: fix memory leak in nilfs_sysfs_delete_##name##_group
+	  - nilfs2: fix memory leak in nilfs_sysfs_create_snapshot_group
+	  - nilfs2: fix memory leak in nilfs_sysfs_delete_snapshot_group
+	  - nilfs2: use refcount_dec_and_lock() to fix potential UAF
+	  - nilfs2: fix lockdep warnings in page operations for btree nodes
+	  - nilfs2: fix lockdep warnings during disk space reclamation
+	  - nilfs2: get rid of nilfs_mapping_init()
+	  - nilfs2: fix incorrect masking of permission flags for symlinks
+	  - nilfs2: fix use-after-free bug in nilfs_mdt_destroy()
+	* backport documentation fixes:
+	  - nilfs2: fix some kernel-doc warnings for nilfs2
+	  - fs/nilfs2: fix misspellings using codespell tool
+	  - nilfs2: fix typos in comments
+	* backport other changes:
+	  - nilfs2: convert to SPDX license tags
+	  - nilfs2: replace snprintf in show functions with sysfs_emit
+	  - nilfs2: remove filenames from file comments
+	  - nilfs2: use default_groups in kobj_type
+	  - nilfs2: convert __nilfs_msg to integrate the level and format
+	  - nilfs2: use a more common logging style
+	* add ChangeLog file
+	* add README file
 	* add kern_feature.h header file
 	* add .gitignore file
 	* Import source files from stable kernel-4.18.y.
