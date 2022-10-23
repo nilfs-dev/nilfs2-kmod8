@@ -22,6 +22,7 @@
 # if (RHEL_MINOR > 3)
 #  define	HAVE_VFS_IOC_SETFLAGS_PREPARE			1
 #  define	HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG	0
+#  define	HAVE_FALLTHROUGH_KEYWORD			1
 # endif
 # if (RHEL_MINOR > 4)
 #  define	HAVE_SYSFS_EMIT			1
@@ -49,6 +50,14 @@
 #ifndef HAVE_VFS_IOC_SETFLAGS_PREPARE
 # define HAVE_VFS_IOC_SETFLAGS_PREPARE \
 	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 2, 0))
+#endif
+/*
+ * The fallthrough pseudo-keyword was introduced in kernel 5.7 to
+ * replace existing "fall through" comments.
+ */
+#ifndef HAVE_FALLTHROUGH_KEYWORD
+# define HAVE_FALLTHROUGH_KEYWORD \
+	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 4, 0))
 #endif
 /*
  * The error sector argument was removed from blkdev_issue_flush() in
@@ -107,6 +116,14 @@ vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
 
         return 0;
 }
+#endif
+
+#if !HAVE_FALLTHROUGH_KEYWORD
+#if __has_attribute(__fallthrough__)
+# define fallthrough			__attribute__((__fallthrough__))
+#else
+# define fallthrough			do {} while (0)  /* fallthrough */
+#endif
 #endif
 
 #if !HAVE_SYSFS_EMIT

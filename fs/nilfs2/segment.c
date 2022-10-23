@@ -23,6 +23,7 @@
 #include <linux/slab.h>
 #include <linux/sched/signal.h>
 
+#include "kern_feature.h"	/* fallthrough */
 #include "nilfs.h"
 #include "btnode.h"
 #include "page.h"

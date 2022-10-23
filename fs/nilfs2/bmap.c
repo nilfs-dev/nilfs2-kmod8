@@ -10,6 +10,7 @@
 #include <linux/fs.h>
 #include <linux/string.h>
 #include <linux/errno.h>
+#include "kern_feature.h"	/* fallthrough */
 #include "nilfs.h"
 #include "bmap.h"
 #include "btree.h"

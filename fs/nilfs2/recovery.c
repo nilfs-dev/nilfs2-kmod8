@@ -12,6 +12,7 @@
 #include <linux/swap.h>
 #include <linux/slab.h>
 #include <linux/crc32.h>
+#include "kern_feature.h"	/* fallthrough */
 #include "nilfs.h"
 #include "segment.h"
 #include "sufile.h"
