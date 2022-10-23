@@ -22,6 +22,9 @@
 # if (RHEL_MINOR > 3)
 #  define	HAVE_VFS_IOC_SETFLAGS_PREPARE	1
 # endif
+# if (RHEL_MINOR > 5)
+#  define	HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG	0
+# endif
 # if (RHEL_MINOR > 6)
 #  define	HAVE_AOPS_READAHEAD	1
 # endif
@@ -49,6 +52,14 @@
 #ifndef HAVE_AOPS_READAHEAD
 # define HAVE_AOPS_READAHEAD \
 	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+#endif
+/*
+ * The memory allocation flag was removed from the arguments of
+ * blkdev_issue_flush() in kernel 5.11.
+ */
+#ifndef HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG
+# define HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG \
+	(LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0))
 #endif
 #endif /* LINUX_VERSION_CODE */
 

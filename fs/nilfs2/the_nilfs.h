@@ -19,6 +19,7 @@
 #include <linux/backing-dev.h>
 #include <linux/slab.h>
 #include <linux/refcount.h>
+#include "kern_feature.h"
 
 struct nilfs_sc_info;
 struct nilfs_sysfs_dev_subgroups;
@@ -375,7 +376,11 @@ static inline int nilfs_flush_device(struct the_nilfs *nilfs)
 	 */
 	smp_wmb();
 
+#if HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG
+	err = blkdev_issue_flush(nilfs->ns_bdev, GFP_KERNEL);
+#else
 	err = blkdev_issue_flush(nilfs->ns_bdev);
+#endif
 	if (err != -EIO)
 		err = 0;
 	return err;
