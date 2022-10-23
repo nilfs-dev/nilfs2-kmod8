@@ -22,6 +22,9 @@
 # if (RHEL_MINOR > 3)
 #  define	HAVE_VFS_IOC_SETFLAGS_PREPARE	1
 # endif
+# if (RHEL_MINOR > 4)
+#  define	HAVE_SYSFS_EMIT			1
+# endif
 # if (RHEL_MINOR > 5)
 #  define	HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG	0
 # endif
@@ -52,6 +55,15 @@
 #ifndef HAVE_AOPS_READAHEAD
 # define HAVE_AOPS_READAHEAD \
 	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+#endif
+/*
+ * In kernel 5.9, two sysfs output functions sysfs_emit() and
+ * sysfs_emit_at() were added to ensure that no overrun is on the
+ * temporary buffer.
+ */
+#ifndef HAVE_SYSFS_EMIT
+# define HAVE_SYSFS_EMIT \
+	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 9, 0))
 #endif
 /*
  * The memory allocation flag was removed from the arguments of
@@ -87,5 +99,18 @@ vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
         return 0;
 }
 #endif
+
+#if !HAVE_SYSFS_EMIT
+#ifdef CONFIG_SYSFS
+__printf(2, 3)
+int sysfs_emit(char *buf, const char *fmt, ...);
+#else  /* CONFIG_SYSFS */
+__printf(2, 3)
+static inline int sysfs_emit(char *buf, const char *fmt, ...)
+{
+	return 0;
+}
+#endif /* CONFIG_SYSFS */
+#endif /* !HAVE_SYSFS_EMIT */
 
 #endif /* NILFS_KERN_FEATURE_H */

@@ -10,6 +10,7 @@
 
 #include <linux/kobject.h>
 
+#include "kern_feature.h"
 #include "nilfs.h"
 #include "mdt.h"
 #include "sufile.h"
