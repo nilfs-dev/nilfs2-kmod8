@@ -376,7 +376,9 @@ static inline int nilfs_flush_device(struct the_nilfs *nilfs)
 	 */
 	smp_wmb();
 
-#if HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG
+#if HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG
+	err = blkdev_issue_flush(nilfs->ns_bdev, GFP_KERNEL, NULL);
+#elif HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG
 	err = blkdev_issue_flush(nilfs->ns_bdev, GFP_KERNEL);
 #else
 	err = blkdev_issue_flush(nilfs->ns_bdev);

@@ -20,7 +20,8 @@
  */
 #if defined(RHEL_MAJOR) && (RHEL_MAJOR == 8)
 # if (RHEL_MINOR > 3)
-#  define	HAVE_VFS_IOC_SETFLAGS_PREPARE	1
+#  define	HAVE_VFS_IOC_SETFLAGS_PREPARE			1
+#  define	HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG	0
 # endif
 # if (RHEL_MINOR > 4)
 #  define	HAVE_SYSFS_EMIT			1
@@ -48,6 +49,14 @@
 #ifndef HAVE_VFS_IOC_SETFLAGS_PREPARE
 # define HAVE_VFS_IOC_SETFLAGS_PREPARE \
 	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 2, 0))
+#endif
+/*
+ * The error sector argument was removed from blkdev_issue_flush() in
+ * kernel 5.7.
+ */
+#ifndef HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG
+# define HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG \
+	(LINUX_VERSION_CODE < KERNEL_VERSION(5, 7, 0))
 #endif
 /*
  * mpage_readpages was converted to mpage_readahead in kernel 5.8.
