@@ -23,7 +23,7 @@
 #include <linux/slab.h>
 #include <linux/sched/signal.h>
 
-#include "kern_feature.h"	/* fallthrough */
+#include "kern_feature.h"  /* fallthrough, HAVE_EXPORTED_INODE_ATTACH_WB */
 #include "nilfs.h"
 #include "btnode.h"
 #include "page.h"
@@ -2795,7 +2795,9 @@ int nilfs_attach_log_writer(struct super_block *sb, struct nilfs_root *root)
 	if (!nilfs->ns_writer)
 		return -ENOMEM;
 
+#if HAVE_EXPORTED_INODE_ATTACH_WB
 	inode_attach_wb(nilfs->ns_bdev->bd_inode, NULL);
+#endif
 
 	err = nilfs_segctor_start_thread(nilfs->ns_writer);
 	if (unlikely(err))

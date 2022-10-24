@@ -19,6 +19,9 @@
  * for Red Hat Enterprise Linux 8.x clones
  */
 #if defined(RHEL_MAJOR) && (RHEL_MAJOR == 8)
+# if (RHEL_MINOR > 2)
+#  define	HAVE_EXPORTED_INODE_ATTACH_WB			1
+# endif
 # if (RHEL_MINOR > 3)
 #  define	HAVE_VFS_IOC_SETFLAGS_PREPARE			1
 #  define	HAVE_BLKDEV_ISSUE_FLUSH_ERROR_SECTOR_ARG	0
@@ -50,6 +53,13 @@
 #ifndef HAVE_VFS_IOC_SETFLAGS_PREPARE
 # define HAVE_VFS_IOC_SETFLAGS_PREPARE \
 	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 2, 0))
+#endif
+/*
+ * inode_attach_wb() was exported to modules in kernel 5.3.
+ */
+#ifndef HAVE_EXPORTED_INODE_ATTACH_WB
+# define HAVE_EXPORTED_INODE_ATTACH_WB \
+	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 3, 0))
 #endif
 /*
  * The fallthrough pseudo-keyword was introduced in kernel 5.7 to
