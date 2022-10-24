@@ -19,6 +19,9 @@
  * for Red Hat Enterprise Linux 8.x clones
  */
 #if defined(RHEL_MAJOR) && (RHEL_MAJOR == 8)
+# if (RHEL_MINOR == 0)
+#  error nilfs2-kmod8 does not work with RHEL 8.0 kernels.
+# endif
 # if (RHEL_MINOR > 2)
 #  define	HAVE_EXPORTED_INODE_ATTACH_WB			1
 # endif
