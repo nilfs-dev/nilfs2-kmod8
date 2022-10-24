@@ -1,3 +1,22 @@
+nilfs2-kmod8-1.0  Mon Oct 24, 2022 JST
+
+	* Fix build issues with older RHEL 8 kernels:
+	  - Allow to use sysfs_emit() in old kernels (< 8.5)
+	  - Allow to add gfp argument to blkdev_issue_flush() for old kernels
+	    (< 8.6)
+	  - Add dummy error sector argument to blkdev_issue_flush() for old
+	    kernels (< 8.4)
+	  - Allow to use the fallthrough keyword in older kernels (< 8.4)
+	  - Revert "nilfs2: use default_groups in kobj_type" (< 8.3)
+	  - Avoid using unexported __inode_attach_wb() in older kernels (< 8.3)
+	  - nilfs2-kmod8: output an error when compiling against unsupported
+	    versions (= 8.0)
+	* Makefile updates:
+	  - nilfs2-kmod8: pass RHEL release number to preprocessor
+	  - Include header files in local include/uapi directory
+	  - Use KBUILD_EXTMOD instead of SUBDIRS in fs/nilfs2/Makefile
+	  - Use KBUILD_CFLAGS and LINUXINCLUDE instead of EXTRA_CFLAGS
+
 nilfs2-kmod8-0.2  Sun Oct 16, 2022 JST
 
 	* backport bug fixes:
