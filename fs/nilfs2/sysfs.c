@@ -71,7 +71,7 @@ static void nilfs_##name##_attr_release(struct kobject *kobj) \
 	complete(&subgroups->sg_##name##_kobj_unregister); \
 } \
 static struct kobj_type nilfs_##name##_ktype = { \
-	.default_groups	= nilfs_##name##_groups, \
+	.default_attrs	= nilfs_##name##_attrs, \
 	.sysfs_ops	= &nilfs_##name##_attr_ops, \
 	.release	= nilfs_##name##_attr_release, \
 }
@@ -143,7 +143,6 @@ static struct attribute *nilfs_snapshot_attrs[] = {
 	NILFS_SNAPSHOT_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_snapshot);
 
 static ssize_t nilfs_snapshot_attr_show(struct kobject *kobj,
 					struct attribute *attr, char *buf)
@@ -181,7 +180,7 @@ static const struct sysfs_ops nilfs_snapshot_attr_ops = {
 };
 
 static struct kobj_type nilfs_snapshot_ktype = {
-	.default_groups	= nilfs_snapshot_groups,
+	.default_attrs	= nilfs_snapshot_attrs,
 	.sysfs_ops	= &nilfs_snapshot_attr_ops,
 	.release	= nilfs_snapshot_attr_release,
 };
@@ -241,7 +240,6 @@ static struct attribute *nilfs_mounted_snapshots_attrs[] = {
 	NILFS_MOUNTED_SNAPSHOTS_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_mounted_snapshots);
 
 NILFS_DEV_INT_GROUP_OPS(mounted_snapshots, dev);
 NILFS_DEV_INT_GROUP_TYPE(mounted_snapshots, dev);
@@ -355,7 +353,6 @@ static struct attribute *nilfs_checkpoints_attrs[] = {
 	NILFS_CHECKPOINTS_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_checkpoints);
 
 NILFS_DEV_INT_GROUP_OPS(checkpoints, dev);
 NILFS_DEV_INT_GROUP_TYPE(checkpoints, dev);
@@ -445,7 +442,6 @@ static struct attribute *nilfs_segments_attrs[] = {
 	NILFS_SEGMENTS_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_segments);
 
 NILFS_DEV_INT_GROUP_OPS(segments, dev);
 NILFS_DEV_INT_GROUP_TYPE(segments, dev);
@@ -707,7 +703,6 @@ static struct attribute *nilfs_segctor_attrs[] = {
 	NILFS_SEGCTOR_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_segctor);
 
 NILFS_DEV_INT_GROUP_OPS(segctor, dev);
 NILFS_DEV_INT_GROUP_TYPE(segctor, dev);
@@ -835,7 +830,6 @@ static struct attribute *nilfs_superblock_attrs[] = {
 	NILFS_SUPERBLOCK_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_superblock);
 
 NILFS_DEV_INT_GROUP_OPS(superblock, dev);
 NILFS_DEV_INT_GROUP_TYPE(superblock, dev);
@@ -944,7 +938,6 @@ static struct attribute *nilfs_dev_attrs[] = {
 	NILFS_DEV_ATTR_LIST(README),
 	NULL,
 };
-ATTRIBUTE_GROUPS(nilfs_dev);
 
 static ssize_t nilfs_dev_attr_show(struct kobject *kobj,
 				    struct attribute *attr, char *buf)
@@ -982,7 +975,7 @@ static const struct sysfs_ops nilfs_dev_attr_ops = {
 };
 
 static struct kobj_type nilfs_dev_ktype = {
-	.default_groups	= nilfs_dev_groups,
+	.default_attrs	= nilfs_dev_attrs,
 	.sysfs_ops	= &nilfs_dev_attr_ops,
 	.release	= nilfs_dev_attr_release,
 };
