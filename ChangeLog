@@ -1,3 +1,9 @@
+nilfs2-kmod8-1.1  Sun Nov 20, 2022 JST
+
+	* backport bug fixes:
+	  - nilfs2: fix deadlock in nilfs_count_free_blocks()
+	  - nilfs2: fix use-after-free bug of ns_writer on remount
+
 nilfs2-kmod8-1.0  Mon Oct 24, 2022 JST
 
 	* Fix build issues with older RHEL 8 kernels:
