@@ -104,6 +104,13 @@
 # define HAVE_BLKDEV_ISSUE_FLUSH_GFP_ARG \
 	(LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0))
 #endif
+/*
+ * bdev_nr_bytes() and sb_bdev_nr_blocks() were added in kernel 5.16.
+ */
+#ifndef HAVE_BDEV_NR_BYTES
+# define HAVE_BDEV_NR_BYTES \
+	(LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+#endif
 #endif /* LINUX_VERSION_CODE */
 
 
@@ -151,5 +158,17 @@ static inline int sysfs_emit(char *buf, const char *fmt, ...)
 }
 #endif /* CONFIG_SYSFS */
 #endif /* !HAVE_SYSFS_EMIT */
+
+#if !HAVE_BDEV_NR_BYTES
+static inline loff_t bdev_nr_bytes(struct block_device *bdev)
+{
+	return i_size_read(bdev->bd_inode);
+}
+
+static inline u64 sb_bdev_nr_blocks(struct super_block *sb)
+{
+	return (u64)bdev_nr_bytes(sb->s_bdev) >> sb->s_blocksize_bits;
+}
+#endif
 
 #endif /* NILFS_KERN_FEATURE_H */
