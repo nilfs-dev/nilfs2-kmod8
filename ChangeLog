@@ -1,3 +1,15 @@
+nilfs2-kmod8-1.11  Mon Sep 4, 2023 JST
+
+	* backport fixes for user-after-free read, general protection fault,
+	  and kernel warning issues under abnormal conditions reported by
+	  syzbot:
+	  - nilfs2: fix use-after-free of nilfs_root in dirtying inodes via
+	    iput
+	  - nilfs2: fix general protection fault in
+	    nilfs_lookup_dirty_data_buffers()
+	  - nilfs2: fix WARNING in mark_buffer_dirty due to discarded buffer
+	    reuse
+
 nilfs2-kmod8-1.10  Sat Jun 24, 2023 JST
 
 	* backport fixes for general protection faults on corrupted disk images
