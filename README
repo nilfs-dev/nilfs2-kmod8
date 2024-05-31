@@ -11,7 +11,7 @@ administration tools, are included in the package.
 
 * Supported Linux distributions
 
-- CentOS 8 Stream
+- ~~CentOS 8 Stream~~ (Reached EOL on May 31, 2024)
 - AlmaLinux 8
 - Rocky Linux 8
 
