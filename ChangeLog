@@ -1,3 +1,16 @@
+nilfs2-kmod8-1.16  Sat Jun 8, 2024 JST
+
+	* backport fixes for a kernel bug that could occur when overwriting
+	  a block device on which nilfs2 is mounted, and for potential FS
+	  corruption when removing or renaming a directory failed with I/O
+	  errors:
+	  - nilfs2: fix potential kernel bug due to lack of writeback flag
+	    waiting
+	  - nilfs2: fix nilfs_empty_dir() misjudgment and long loop on I/O
+	    errors
+	* CentOS 8 stream EOL has been reflected in the README file:
+	  - README: remove CentOS 8 stream from supported distributions
+
 nilfs2-kmod8-1.15  Mon May 27, 2024 JST
 
 	* backport fixes for a few issues with the log writer, including
