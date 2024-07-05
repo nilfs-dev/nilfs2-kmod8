@@ -1,3 +1,14 @@
+nilfs2-kmod8-1.17  Sat Jul 6, 2024 JST
+
+	* backport a fix for use-after-free of metadata file inodes that could
+	  cause kernel bugs when directory entries were corrupted:
+	  - nilfs2: add missing check for inode numbers on directory entries
+	* backport fixes for a couple of flaws that could cause problems if
+	  the starting number of non-reserved inodes was intentionally (or
+	  corruptly) changed from its default value:
+	  - nilfs2: fix inode number range checks
+	  - nilfs2: fix incorrect inode allocation from reserved inodes
+
 nilfs2-kmod8-1.16  Sat Jun 8, 2024 JST
 
 	* backport fixes for a kernel bug that could occur when overwriting
