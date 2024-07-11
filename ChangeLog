@@ -1,3 +1,10 @@
+nilfs2-kmod8-1.18  Fri Jul 12, 2024 JST
+
+	* backport a fix for a kernel bug that could occur when moving/renaming
+	  broken directories, and a commit that it depends on:
+	  - nilfs2: fix kernel bug on rename operation of broken directory
+	  - nilfs2: return the mapped address from nilfs_get_page()
+
 nilfs2-kmod8-1.17  Sat Jul 6, 2024 JST
 
 	* backport a fix for use-after-free of metadata file inodes that could
