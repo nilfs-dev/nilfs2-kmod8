@@ -1,3 +1,23 @@
+nilfs2-kmod8-1.19  Thu Sep 5, 2024 JST
+
+	* backport upstream bug fixes for issues such as memory access
+	  violations or invalid pointer dereferencing due to missing exclusive
+	  controls in the sysfs interface, a use-after-free bug in an error
+	  path of recovery during mount, and hangs and metadata block loss
+	  due to insufficient cleanup after log writer errors:
+	  - nilfs2: fix state management in error path of log writing function
+	  - nilfs2: fix missing cleanup on rollforward recovery error
+	  - nilfs2: protect references to superblock parameters exposed in
+	    sysfs
+	* backport bug fixes for a kernel bug in b-tree node block creation
+	  that can occur when the disk address translation table is corrupted,
+	  and potential synchronization operation malfunctions due to an
+	  environment-dependent flaw in a sequence counter comparision macro:
+	  - nilfs2: handle inconsistent state in nilfs_btnode_create_block()
+	  - nilfs2: avoid undefined behavior in nilfs_cnt32_ge macro
+	* backport a cleanup patch to resolve a conflict:
+	  - fs/nilfs2: remove some unused macros to tame gcc
+
 nilfs2-kmod8-1.18  Fri Jul 12, 2024 JST
 
 	* backport a fix for a kernel bug that could occur when moving/renaming
