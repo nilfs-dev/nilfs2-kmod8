@@ -1,3 +1,30 @@
+nilfs2-kmod8-1.20  Mon Sep 23, 2024 JST
+
+	* backport upstream fixes that prevent internal code -ENOENT from
+	  propagating to system calls:
+	  - nilfs2: treat missing sufile header block as metadata corruption
+	  - nilfs2: treat missing cpfile header block as metadata corruption
+	  - nilfs2: do not propagate ENOENT error from sufile during recovery
+	  - nilfs2: do not propagate ENOENT error from sufile during GC
+	  - nilfs2: do not propagate ENOENT error from
+	    nilfs_sufile_mark_dirty()
+
+	* backport upstream fixes for three potential issues with empty b-tree
+	  nodes that can occur with corrupted file system images, including one
+	  recently discovered by syzbot:
+	  - nilfs2: fix potential null-ptr-deref in nilfs_btree_insert()
+	  - nilfs2: determine empty node blocks as corrupted
+	  - nilfs2: fix potential oob read in nilfs_btree_check_delete()
+
+	* backport a change to suppress nuisance kernel warnings that are
+	  output after detecting file system corruption and degrading to a
+	  read-only mount:
+	  - nilfs2: do not output warnings when clearing dirty buffers
+
+	* backport a cleanup patch to remove code that is no longer needed by
+	  an existing fix:
+	  - nilfs2: do not repair reserved inode bitmap in nilfs_new_inode()
+
 nilfs2-kmod8-1.19  Thu Sep 5, 2024 JST
 
 	* backport upstream bug fixes for issues such as memory access
