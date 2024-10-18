@@ -1,3 +1,10 @@
+nilfs2-kmod8-1.21  Sat Oct 19, 2024 JST
+
+	* backport an upstream fix for a problem where a directory search could
+	  loop for a long time on a broken filesystem, which could result in a
+	  large amount of error logs being output in bursts:
+	  - nilfs2: propagate directory read errors from nilfs_find_entry()
+
 nilfs2-kmod8-1.20  Mon Sep 23, 2024 JST
 
 	* backport upstream fixes that prevent internal code -ENOENT from
