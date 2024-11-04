@@ -1,3 +1,13 @@
+nilfs2-kmod8-1.22  Mon Nov 4, 2024 JST
+
+	* backport fixes for two kernel bug that could occur when file system
+	  corruption was detected and the mount mode was degraded to read-only:
+	  - nilfs2: fix kernel bug due to missing clearing of buffer delay flag
+	  - nilfs2: fix kernel bug due to missing clearing of checked flag
+
+	* backport a fix for a potential deadlock issue:
+	  - nilfs2: fix potential deadlock with newly created symlinks
+
 nilfs2-kmod8-1.21  Sat Oct 19, 2024 JST
 
 	* backport an upstream fix for a problem where a directory search could
