@@ -1,3 +1,10 @@
+nilfs2-kmod8-1.23  Thu Nov 14, 2024 JST
+
+	* backport fixes for null pointer dereference bugs that occur when
+	  using nilfs2 and two block-related tracepoints:
+	  - nilfs2: fix null-ptr-deref in block_touch_buffer tracepoint
+	  - nilfs2: fix null-ptr-deref in block_dirty_buffer tracepoint
+
 nilfs2-kmod8-1.22  Mon Nov 4, 2024 JST
 
 	* backport fixes for two kernel bug that could occur when file system
