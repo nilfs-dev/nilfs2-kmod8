@@ -1,3 +1,11 @@
+nilfs2-kmod8-1.24  Mon Dec 23, 2024 JST
+
+	* backport fixes for potential issues such as out-of-page memory access
+	  and link counter underflow that can occur on corrupted file systems:
+	  - nilfs2: prevent use of deleted inode
+	  - nilfs2: fix potential out-of-bounds memory access in
+	    nilfs_find_entry()
+
 nilfs2-kmod8-1.23  Thu Nov 14, 2024 JST
 
 	* backport fixes for null pointer dereference bugs that occur when
