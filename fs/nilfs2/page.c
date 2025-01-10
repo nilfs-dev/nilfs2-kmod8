@@ -135,8 +135,7 @@ void nilfs_copy_buffer(struct buffer_head *dbh, struct buffer_head *sbh)
  * nilfs_page_buffers_clean - check if a page has dirty buffers or not.
  * @page: page to be checked
  *
- * nilfs_page_buffers_clean() returns zero if the page has dirty buffers.
- * Otherwise, it returns non-zero value.
+ * Return: false if the page has dirty buffers, true otherwise.
  */
 int nilfs_page_buffers_clean(struct page *page)
 {
@@ -506,8 +505,9 @@ int __nilfs_clear_page_dirty(struct page *page)
  * This function searches an extent of buffers marked "delayed" which
  * starts from a block offset equal to or larger than @start_blk.  If
  * such an extent was found, this will store the start offset in
- * @blkoff and return its length in blocks.  Otherwise, zero is
- * returned.
+ * @blkoff and return its length in blocks.
+ *
+ * Return: Length in blocks of found extent, 0 otherwise.
  */
 unsigned long nilfs_find_uncommitted_extent(struct inode *inode,
 					    sector_t start_blk,

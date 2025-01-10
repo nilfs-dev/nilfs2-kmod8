@@ -86,6 +86,8 @@ int nilfs_sufile_trim_fs(struct inode *sufile, struct fstrim_range *range);
  * nilfs_sufile_scrap - make a segment garbage
  * @sufile: inode of segment usage file
  * @segnum: segment number to be freed
+ *
+ * Return: 0 on success, or a negative error code on failure.
  */
 static inline int nilfs_sufile_scrap(struct inode *sufile, __u64 segnum)
 {
@@ -96,6 +98,8 @@ static inline int nilfs_sufile_scrap(struct inode *sufile, __u64 segnum)
  * nilfs_sufile_free - free segment
  * @sufile: inode of segment usage file
  * @segnum: segment number to be freed
+ *
+ * Return: 0 on success, or a negative error code on failure.
  */
 static inline int nilfs_sufile_free(struct inode *sufile, __u64 segnum)
 {
@@ -108,6 +112,8 @@ static inline int nilfs_sufile_free(struct inode *sufile, __u64 segnum)
  * @segnumv: array of segment numbers
  * @nsegs: size of @segnumv array
  * @ndone: place to store the number of freed segments
+ *
+ * Return: 0 on success, or a negative error code on failure.
  */
 static inline int nilfs_sufile_freev(struct inode *sufile, __u64 *segnumv,
 				     size_t nsegs, size_t *ndone)
