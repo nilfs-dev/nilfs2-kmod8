@@ -1,3 +1,26 @@
+nilfs2-kmod8-1.25  Tue Feb 4, 2025 JST
+
+	* backport fixes for the buffer head state inconsistency issues
+	  reported by syzbot that occur when the filesystem is corrupted and
+	  falls back to read-only, and the associated buffer head
+	  use-after-free issue:
+	  - nilfs2: do not force clear folio if buffer is referenced
+	  - nilfs2: protect access to buffers with no active references
+
+	* backport fixes for BUG_ON check failures reported by syzbot around
+	  rename operations, and a behavioral issue where the mtime of a child
+	  directory changes when it is renamed instead of moved:
+	  - nilfs2: move page release outside of nilfs_delete_entry and
+	    nilfs_set_link
+	  - nilfs2: eliminate staggered calls to kunmap in nilfs_rename
+	  - nilfs2: handle errors that nilfs_prepare_chunk() may return
+	  - nilfs2: do not update mtime of renamed directory that is not moved
+
+	* backport a fix for integer overflows in the fiemap ioctl that don't
+	  happen with normal FS formats, but can happen in special
+	  circumstances where the segment size is tuned to be extra large:
+	  - nilfs2: fix possible int overflows in nilfs_fiemap()
+
 nilfs2-kmod8-1.24  Mon Dec 23, 2024 JST
 
 	* backport fixes for potential issues such as out-of-page memory access
