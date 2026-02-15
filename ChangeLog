@@ -1,3 +1,22 @@
+nilfs2-kmod8-1.27  Mon Feb 16, 2026 JST
+
+	* backport a fix for a potential block overflow during FITRIM
+	  operations that could lead to a system hang, and a fix to ensure
+	  invalid file types are rejected during inode reading to prevent
+	  filesystem malfunctions:
+	  - nilfs2: Fix potential block overflow that cause system hang
+	  - nilfs2: reject invalid file types when reading inodes
+
+	* backport a fix for a Control Flow Integrity (CFI) failure observed
+	  when accessing the features group in sysfs with Clang's CFI enabled:
+	  - nilfs2: fix CFI failure when accessing /sys/fs/nilfs2/features/*
+
+	* backport fixes to eliminate kernel-doc warnings by adding missing
+	  keywords and converting comments for on-disk structures to the proper
+	  kernel-doc format:
+	  - nilfs2: fix missing struct keywords in nilfs2_api.h kernel-doc
+	  - nilfs2: convert nilfs_super_block to kernel-doc
+
 nilfs2-kmod8-1.26  Tue Jun 3, 2025 JST
 
 	* backport fixes for one missed check for block mapping anomalies
