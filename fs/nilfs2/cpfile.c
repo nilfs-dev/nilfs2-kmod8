@@ -79,18 +79,29 @@ nilfs_cpfile_block_add_valid_checkpoints(const struct inode *cpfile,
 	return count;
 }
 
-static unsigned int
+static int
 nilfs_cpfile_block_sub_valid_checkpoints(const struct inode *cpfile,
 					 struct buffer_head *bh,
-					 void *kaddr,
 					 unsigned int n)
 {
-	struct nilfs_checkpoint *cp = kaddr + bh_offset(bh);
-	unsigned int count;
+	struct nilfs_checkpoint *cp;
+	unsigned int checkpoints_count;
+	void *kaddr;
+	int count;
 
-	WARN_ON(le32_to_cpu(cp->cp_checkpoints_count) < n);
-	count = le32_to_cpu(cp->cp_checkpoints_count) - n;
+	kaddr = kmap_atomic(bh->b_page);
+	cp = kaddr + bh_offset(bh);
+	checkpoints_count = le32_to_cpu(cp->cp_checkpoints_count);
+	if (unlikely(checkpoints_count < n)) {
+		nilfs_error(cpfile->i_sb,
+			    "deleted checkpoints count %u exceeds block count %u",
+			    n, checkpoints_count);
+		kunmap_atomic(kaddr);
+		return -EIO;
+	}
+	count = checkpoints_count - n;
 	cp->cp_checkpoints_count = cpu_to_le32(count);
+	kunmap_atomic(kaddr);
 	return count;
 }
 
@@ -366,33 +377,38 @@ int nilfs_cpfile_delete_checkpoints(struct inode *cpfile,
 				nicps++;
 			}
 		}
-		if (nicps > 0) {
-			tnicps += nicps;
-			mark_buffer_dirty(cp_bh);
-			nilfs_mdt_mark_dirty(cpfile);
-			if (!nilfs_cpfile_is_in_first(cpfile, cno)) {
-				count =
-				  nilfs_cpfile_block_sub_valid_checkpoints(
-						cpfile, cp_bh, kaddr, nicps);
-				if (count == 0) {
-					/* make hole */
-					kunmap_atomic(kaddr);
-					brelse(cp_bh);
-					ret =
-					  nilfs_cpfile_delete_checkpoint_block(
-								   cpfile, cno);
-					if (ret == 0)
-						continue;
-					nilfs_err(cpfile->i_sb,
-						  "error %d deleting checkpoint block",
-						  ret);
-					break;
-				}
-			}
+		kunmap_atomic(kaddr);
+
+		if (nicps <= 0) {
+			brelse(cp_bh);
+			continue;
 		}
 
-		kunmap_atomic(kaddr);
+		tnicps += nicps;
+		mark_buffer_dirty(cp_bh);
+		nilfs_mdt_mark_dirty(cpfile);
+		if (nilfs_cpfile_is_in_first(cpfile, cno)) {
+			brelse(cp_bh);
+			continue;
+		}
+
+		count = nilfs_cpfile_block_sub_valid_checkpoints(cpfile, cp_bh,
+								 nicps);
 		brelse(cp_bh);
+		if (unlikely(count < 0)) {
+			ret = count;
+			break;
+		}
+		if (count)
+			continue;
+
+		/* Delete the block if there are no more valid checkpoints */
+		ret = nilfs_cpfile_delete_checkpoint_block(cpfile, cno);
+		if (unlikely(ret)) {
+			nilfs_err(cpfile->i_sb,
+				  "error %d deleting checkpoint block", ret);
+			break;
+		}
 	}
 
 	if (tnicps > 0) {
