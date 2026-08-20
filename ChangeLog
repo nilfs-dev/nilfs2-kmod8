@@ -1,3 +1,43 @@
+nilfs2-kmod8-1.30  Thu Aug 20, 2026 JST
+
+	* backport a fix for an out-of-bounds memory access issue in direct
+	  mapping, caused by a defect in the original B-tree implementation
+	  (specifically, a B-tree node buffer deallocation leak that could
+	  occur during file truncation):
+	  - nilfs2: fix slab-out-of-bounds in nilfs_direct_propagate after
+	    truncation
+
+	* backport fixes for potential BUGs and kernel warnings, reported by
+	  syzbot, arising from false-positive bug detections following
+	  metadata corruption:
+	  - nilfs2: fix BUG in nilfs_copy_dirty_pages() on dirty state
+	    mismatch
+	  - nilfs2: handle corrupted checkpoint count gracefully during
+	    deletion
+	  - nilfs2: suppress false positive WARN_ONs for sufile after an FS
+	    error
+	  - nilfs2: enhance btree node keys check
+
+	* backport a fix for a memory access overrun during super root block
+	  reading that could occur if the inode size parameter in the
+	  superblock was invalid:
+	  - nilfs2: prevent out-of-bounds read in super root block parsing
+
+	* backport a fix for buffer list corruption caused by invalid GC ioctl
+	  parameters reported by syzbot:
+	  - nilfs2: reject invalid block index in GC ioctl
+	  - nilfs2: correct return value kernel-doc descriptions for ioctl
+	    functions
+
+	* backport a fix for a hang issue during GC ioctl that could occur
+	  following metadata corruption, as reported by syzbot:
+	  - nilfs2: fix infinite loop in nilfs_clean_segments()
+
+	* backport documentation fixes:
+	  - Documentation: fix grammar in description of nilfs2 recovery code
+	  - Documentation: Fix typos
+	  - docs: filesystems: convert nilfs2.txt to ReST
+
 nilfs2-kmod8-1.29  Wed Jun 17, 2026 JST
 
 	* backport a fix for a hang issue triggered by passing an out-of-range
