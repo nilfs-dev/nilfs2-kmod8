@@ -323,6 +323,7 @@ static void nilfs_skip_summary_info(struct the_nilfs *nilfs,
  *
  * Return: 0 on success, or one of the following negative error codes on
  * failure:
+ * * %-EINVAL	- Invalid block counts in a file information entry.
  * * %-EIO	- I/O error.
  * * %-ENOMEM	- Insufficient memory available.
  */
@@ -360,6 +361,10 @@ static int nilfs_scan_dsync_log(struct the_nilfs *nilfs, sector_t start_blocknr,
 		ino = le64_to_cpu(finfo->fi_ino);
 		nblocks = le32_to_cpu(finfo->fi_nblocks);
 		ndatablk = le32_to_cpu(finfo->fi_ndatablk);
+		if (ndatablk > nblocks) {
+			err = -EINVAL;
+			goto out;
+		}
 		nnodeblk = nblocks - ndatablk;
 
 		while (ndatablk-- > 0) {
