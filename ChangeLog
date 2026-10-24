@@ -1,3 +1,54 @@
+nilfs2-kmod8-1.31  Sat Oct 24, 2026 JST
+
+	* backport a fix to prevent out-of-bounds memory reads in readdir by
+	  validating directory offsets set via llseek:
+	  - nilfs2: validate directory position after llseek in readdir
+
+	* backport fixes to tighten sanity checks during "dsync" roll-forward
+	  recovery, preventing potential crashes or underflows:
+	  - nilfs2: reject non-regular inodes in dsync recovery
+	  - nilfs2: validate file block counts during recovery
+
+	* backport a fix to prevent link count underflow that can occur when
+	  deleting a corrupted directory:
+	  - nilfs2: fix link count underflow when removing corrupted directory
+
+	* backport a workaround to prevent dcache inconsistencies caused by
+	  non-fatal signals interrupting synchronous log writes during
+	  directory operations:
+	  - nilfs2: ignore non-fatal signals during synchronous log write wait
+
+	* backport a fix to resolve a potential deadlock between synchronous
+	  inode eviction and concurrent inode allocation:
+	  - nilfs2: fix deadlock between nilfs_evict_inode() and find_inode()
+
+	* backport a fix for a use-after-free issue on checkpoint root objects
+	  caused by failure during sysfs attribute group creation:
+	  - nilfs2: fix checkpoint root lifetime on sysfs errors
+
+	* backport a fix for a kernel warning triggered by remaining dirty
+	  pages during page cache rollback from the DAT shadow map:
+	  - nilfs2: force clear dirty state when restoring from the shadow map
+
+	* backport a fix for potential out-of-bounds array access due to an
+	  unvalidated starting segment number:
+	  - nilfs2: validate segment number in nilfs_sufile_get_suinfo()
+
+	* backport strict consistency checks for direct block mapping updates
+	  to prevent out-of-bounds memory accesses:
+	  - nilfs2: strengthen consistency checks in nilfs_direct_propagate()
+
+	* backport a portion of a patch series fixing or improving kernel-doc
+	  comments, to resolve dependency issues for maintenance backports:
+	  - nilfs2: correct return value kernel-doc descriptions for the rest
+	  - nilfs2: add missing return value kernel-doc descriptions
+
+	* backport code cleanup changes:
+	  - nilfs2: remove '#if 0' code blocks
+
+	* backport a documentation fix:
+	  - nilfs2: fix typos in comments
+
 nilfs2-kmod8-1.30  Thu Aug 20, 2026 JST
 
 	* backport a fix for an out-of-bounds memory access issue in direct
